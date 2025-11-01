@@ -1,0 +1,43 @@
+extends layout.pug
+
+block content
+  a(href="/") < Назад до списку
+  
+  h1= book.title
+  
+  fieldset
+    legend Редагувати
+    form(id="editBookForm", data-id=book.id)
+      div
+        label(for="title") Назва:
+        input(type="text", id="title", name="title", value=book.title, required)
+      div
+        label(for="author") Автор:
+        input(type="text", id="author", name="author", value=book.author, required)
+      div
+        label(for="year") Рік:
+        input(type="number", id="year", name="year", value=book.year, required)
+      button(type="submit") Зберегти зміни
+      
+  hr
+  
+  fieldset
+    legend Керування
+    if book.inStock
+      p Статус: В наявності
+      button#checkout-btn(data-id=book.id) Видати книгу
+    else
+      p Статус: У читача
+      p Читач: #{book.readerName}
+      p Повернути до: #{book.returnDate}
+      button#return-btn(data-id=book.id) Повернути книгу
+
+  div(id="modal", class="modal-hidden")
+    div
+      h3 Видача книги
+      label(for="readerName") Ім'я читача:
+      input(type="text", id="readerName")
+      label(for="returnDate") Дата повернення:
+      input(type="date", id="returnDate")
+      button#modal-submit-btn Підтвердити
+      button#modal-cancel-btn Скасувати

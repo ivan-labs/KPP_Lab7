@@ -1,0 +1,48 @@
+extends layout.pug
+
+block content
+  h1= title
+
+  fieldset
+    legend Фільтри
+    label
+      input(type="checkbox", id="filterInStock")
+      |  Тільки в наявності
+    label
+      input(type="checkbox", id="filterOverdue")
+      |  Прострочені
+
+  table(id="booksTable")
+    thead
+      tr
+        th ID
+        th Назва
+        th Автор
+        th Статус
+        th Дії
+    tbody
+      each book in books
+        tr
+          td= book.id
+          td
+            a(href=`/book/${book.id}`)= book.title
+          td= book.author
+          td= book.inStock ? 'В наявності' : `У ${book.readerName} (до ${book.returnDate})`
+          td
+            button.delete-btn(data-id=book.id) Видалити
+
+  hr
+  
+  fieldset
+    legend Додати нову книгу
+    form(id="addBookForm")
+      div
+        label(for="title") Назва:
+        input(type="text", id="title", name="title", required)
+      div
+        label(for="author") Автор:
+        input(type="text", id="author", name="author", required)
+      div
+        label(for="year") Рік:
+        input(type="number", id="year", name="year", required)
+      button(type="submit") Додати
